@@ -21,7 +21,7 @@
 
 - Скачайте код с GitHub.
 ```sh
-git clone ''
+git clone https://github.com/Stranix/devman_quiz_bot.git
 ```
 - Установите зависимости:
 ```sh
