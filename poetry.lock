@@ -409,5 +409,5 @@ vkstreaming = ["websocket-client"]
 
 [metadata]
 lock-version = "2.0"
-python-versions = "^3.11"
-content-hash = "c8c9ce196c33815009aec615fd129f22dae05168c50b6c7f75b8f5293c5ad45f"
+python-versions = "^3.10"
+content-hash = "ef2a9328f4320dd5c7f3ba22e7ed09e5b9b403e263c606b16dcde54365120aa7"

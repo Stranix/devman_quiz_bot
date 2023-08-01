@@ -1,4 +1,5 @@
 import random
+import logging
 
 import redis
 
@@ -16,6 +17,8 @@ from telegram.ext import (
 
 from quiz_helpers import QuizButtons
 from quiz_helpers import parse_quiz
+
+logger = logging.getLogger(__name__)
 
 NEW_QUESTION, ANSWER = range(2)
 
@@ -78,6 +81,8 @@ def cancel(update, _):
 
 
 if __name__ == '__main__':
+    logging.basicConfig(level=logging.ERROR)
+    logger.setLevel(logging.INFO)
     env = Env()
     env.read_env()
 
@@ -116,6 +121,6 @@ if __name__ == '__main__':
         fallbacks=[CommandHandler('cancel', cancel)]
     )
     dispatcher.add_handler(conv_handler)
-
+    logger.info('Старт бота Телеграм')
     updater.start_polling()
     updater.idle()

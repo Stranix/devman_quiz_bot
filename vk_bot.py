@@ -1,4 +1,5 @@
 import random
+import logging
 
 import redis
 import vk_api as vk
@@ -13,6 +14,8 @@ from vk_api.utils import get_random_id
 
 from quiz_helpers import parse_quiz
 from quiz_helpers import QuizButtons
+
+logger = logging.getLogger(__name__)
 
 
 def handle_new_question_request(event, api, keyboard, quiz, db):
@@ -74,6 +77,8 @@ def handle_solution_attempt(event, api, keyboard, quiz, db):
 
 
 if __name__ == '__main__':
+    logging.basicConfig(level=logging.ERROR)
+    logger.setLevel(logging.INFO)
     env = Env()
     env.read_env()
 
@@ -101,6 +106,7 @@ if __name__ == '__main__':
                            color=VkKeyboardColor.NEGATIVE)
     vk_keyboard.add_line()
     vk_keyboard.add_button(QuizButtons.my_score.value)
+    logger.info('Старт бота VK')
 
     for vk_event in longpoll.listen():
         if vk_event.type == VkEventType.MESSAGE_NEW and vk_event.to_me:

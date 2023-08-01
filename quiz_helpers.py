@@ -1,7 +1,10 @@
 import os
 import re
+import logging
 
 from enum import Enum
+
+logger = logging.getLogger(__name__)
 
 
 class QuizButtons(Enum):
@@ -17,6 +20,7 @@ def normalize_answer(answer):
 
 
 def parse_quiz(scan_folder='questions'):
+    logger.info('Собираем вопросы для викторы из папки %s', scan_folder)
     quiz_questions = []
 
     for folder, _, files in os.walk(scan_folder):
@@ -35,4 +39,5 @@ def parse_quiz(scan_folder='questions'):
                     'question': question,
                     'answer': normalize_answer(answer)
                 })
+    logger.info('Вопросы получены')
     return quiz_questions
