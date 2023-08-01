@@ -10,6 +10,7 @@ packages = [{include = "devman_quiz_bot"}]
 python = "^3.11"
 python-telegram-bot = "13.12"
 environs = "^9.5.0"
+redis = "^4.6.0"
 
 
 [build-system]
