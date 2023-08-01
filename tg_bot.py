@@ -84,8 +84,9 @@ if __name__ == '__main__':
     tg_bot_api_key = env('TG_BOT_TOKEN')
     redis_db_host = env('REDIS_DB_HOST', 'localhost')
     redis_db_port = env.int('REDIS_DB_PORT', 6379)
+    quiz_path = env('QUIZ_PATH', 'questions')
 
-    quiz_questions = parse_quiz()
+    quiz_questions = parse_quiz(quiz_path)
     db_conn = redis.Redis(
         host=redis_db_host,
         port=redis_db_port,

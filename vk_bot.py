@@ -77,10 +77,12 @@ if __name__ == '__main__':
     env = Env()
     env.read_env()
 
+    vk_bot_token = env('VK_BOT_TOKEN')
     redis_db_host = env('REDIS_DB_HOST', 'localhost')
     redis_db_port = env.int('REDIS_DB_PORT', 6379)
+    quiz_path = env('QUIZ_PATH', 'questions')
 
-    quiz_questions = parse_quiz()
+    quiz_questions = parse_quiz(quiz_path)
     db_conn = redis.Redis(
         host=redis_db_host,
         port=redis_db_port,
@@ -88,14 +90,15 @@ if __name__ == '__main__':
         decode_responses=True,
     )
 
-    vk_bot_token = env('VK_BOT_TOKEN')
     vk_session = vk.VkApi(token=vk_bot_token)
     vk_api = vk_session.get_api()
     longpoll = VkLongPoll(vk_session)
 
     vk_keyboard = VkKeyboard(one_time=True)
-    vk_keyboard.add_button(QuizButtons.new.value, color=VkKeyboardColor.PRIMARY)
-    vk_keyboard.add_button(QuizButtons.give_up.value, color=VkKeyboardColor.NEGATIVE)
+    vk_keyboard.add_button(QuizButtons.new.value,
+                           color=VkKeyboardColor.PRIMARY)
+    vk_keyboard.add_button(QuizButtons.give_up.value,
+                           color=VkKeyboardColor.NEGATIVE)
     vk_keyboard.add_line()
     vk_keyboard.add_button(QuizButtons.my_score.value)
 
