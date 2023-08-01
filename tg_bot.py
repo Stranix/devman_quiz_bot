@@ -4,12 +4,10 @@ import redis
 
 from environs import Env
 
-from telegram import Update
 from telegram import ReplyKeyboardMarkup
 from telegram import ReplyKeyboardRemove
 from telegram.ext import (
     Updater,
-    CallbackContext,
     CommandHandler,
     MessageHandler,
     Filters,
@@ -22,7 +20,7 @@ from quiz_helpers import parse_quiz
 NEW_QUESTION, ANSWER = range(2)
 
 
-def start(update: Update, _: CallbackContext):
+def start(update, _):
     quiz_keyboard = [
         [QuizButtons.new.value, QuizButtons.give_up.value],
         [QuizButtons.my_score.value, ]
@@ -36,8 +34,8 @@ def start(update: Update, _: CallbackContext):
     return NEW_QUESTION
 
 
-def handle_new_question_request(update: Update, context: CallbackContext):
-    choice = random.choice(context.bot_data["quiz"])
+def handle_new_question_request(update, context):
+    choice = random.choice(context.bot_data['quiz'])
     update.message.reply_text(choice['question'])
 
     db = context.bot_data["db"]
@@ -45,7 +43,7 @@ def handle_new_question_request(update: Update, context: CallbackContext):
     return ANSWER
 
 
-def handle_solution_attempt(update: Update, context: CallbackContext):
+def handle_solution_attempt(update, context):
     db = context.bot_data["db"]
     correct_answer = db.get(update.message.chat_id)
     user_answer = update.message.text.strip('"[]() ').lower()
@@ -61,7 +59,7 @@ def handle_solution_attempt(update: Update, context: CallbackContext):
         return ANSWER
 
 
-def handle_give_up_request(update: Update, context: CallbackContext):
+def handle_give_up_request(update, context):
     db = context.bot_data["db"]
     answer = db.get(update.message.chat_id)
     update.message.reply_text(answer)
@@ -71,7 +69,7 @@ def handle_give_up_request(update: Update, context: CallbackContext):
     handle_new_question_request(update, context)
 
 
-def cancel(update: Update, context: CallbackContext):
+def cancel(update, _):
     update.message.reply_text(
         'До новых встреч!',
         reply_markup=ReplyKeyboardRemove(),

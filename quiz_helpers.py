@@ -10,13 +10,13 @@ class QuizButtons(Enum):
     my_score = 'Мой счет'
 
 
-def normalize_answer(answer: str) -> str:
+def normalize_answer(answer):
     answer = answer.rstrip('.').strip().replace('"', '')
     normalized_answer = re.sub(r'[\(\[].*?[\)\]]', '', answer).lower()
     return normalized_answer
 
 
-def parse_quiz(scan_folder: str = 'questions') -> list:
+def parse_quiz(scan_folder='questions'):
     quiz_questions = []
 
     for folder, _, files in os.walk(scan_folder):
