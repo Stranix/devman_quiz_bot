@@ -50,14 +50,13 @@ def handle_solution_attempt(update, context):
     db = context.bot_data["db"]
     correct_answer = db.get(update.message.chat_id)
     user_answer = update.message.text.strip('"[]() ').lower()
-    print('correct_answer', correct_answer)
-    print('пользователь написал:', user_answer)
+    logger.debug('correct_answer', correct_answer)
+    logger.debug('пользователь написал:', user_answer)
 
     if user_answer == correct_answer:
         update.message.reply_text('Правильно! Поздравляю!')
         handle_new_question_request(update, context)
     else:
-        print('пользователь написал:', user_answer)
         update.message.reply_text('Неправильно… Попробуешь ещё раз?')
         return ANSWER
 
